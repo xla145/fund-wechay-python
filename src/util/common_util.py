@@ -1,8 +1,10 @@
 # -*- coding: UTF-8 -*-
 
 # 工具类 分隔符
+import datetime
 
 import util
+from util.request_util import get
 
 
 class CommonUtil:
@@ -31,7 +33,18 @@ class CommonUtil:
     def get_timestamp() -> int:
         return int(util.time.time())
 
+    @staticmethod
+    def time_format(date_time: datetime.datetime, time_format: str) -> str:
+        return date_time.strftime(time_format)
+
+    @staticmethod
+    def is_holiday(cur_time: datetime.datetime = datetime.datetime.utcnow()) -> bool:
+        url = "http://tool.bitefu.net/jiari/?d=%s" % (CommonUtil.time_format(cur_time, "%Y-%m-%d"))
+        text = get(url)
+        if int(text) == 0:
+            return False
+        return True
 
 
 if __name__ == '__main__':
-    print(CommonUtil.del_empty_str(['今天', '雷阵雨', '25° / 35°', '西北风', '1级', '', '46 优', '']))
+    print(CommonUtil.is_holiday(datetime.datetime.utcnow()))

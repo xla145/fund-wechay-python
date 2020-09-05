@@ -13,11 +13,12 @@ from util.common_util import CommonUtil
 
 log: logging.Logger = get_logger('MyBot')
 
-
 """
 获取北上，南下资金信息
 """
-def get_south_north_fund():
+
+
+def south_north_fund():
     url = "http://money.finance.sina.com.cn/quotes_service/api/jsonp.php/var%20liveDateTableList=/HK_MoneyFlow.getDayMoneyFlowOtherInfo"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.80 Safari/537.36'
@@ -41,7 +42,3 @@ def get_south_north_fund():
                                   thumbnailUrl="")
     url_link = UrlLink(payload=link_payload)
     return url_link
-
-
-if __name__ == '__main__':
-    get_south_north_fund()

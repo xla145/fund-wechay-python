@@ -26,9 +26,16 @@ tags:
 * 下载音乐
 * 。。。。
 
+
+## 项目信息
+
+* [项目地址](https://github.com/smwsk/wechaty-bot)
+
 ## 功能展示
 
+<img src="/assets/2020/fund-wechay-python/fund_20200905174635.png" width="300" alt="北上资金"/>
 
+<img src="/assets/2020/fund-wechay-python/fund_20200905174635.png" width="300" alt="早上问候"/>
 
 
 ## 注意

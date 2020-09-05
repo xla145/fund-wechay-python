@@ -8,10 +8,10 @@ from typing import Optional, Union
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from wechaty import Wechaty, Contact, UrlLink
 from wechaty.user import Message, Room
-from wechaty_puppet import ScanStatus, get_logger  # type: ignore
+from wechaty_puppet import ScanStatus, get_logger, FileBox  # type: ignore
 
-from service.fund import get_south_north_fund
-from service.msg_service import get_wx_public_article_url_link, get_weather_url_link, get_music_file_url
+from service.msg_service import get_wx_public_article_url_link, get_weather_url_link, get_music_file_url, \
+    get_south_north_fund
 
 """
 微信机器人
@@ -51,22 +51,22 @@ class MyBot(Wechaty):
         # 根据收到的信息，进行回复
         log.info(text)
         if text.find("英语") != -1:
-            url_link = get_wx_public_article_url_link("田间小站")
+            send_msg: Union[str, UrlLink] = get_wx_public_article_url_link("田间小站")
         elif text.find("早上") != -1:
-            url_link = get_wx_public_article_url_link("早晨简报")
+            send_msg: Union[str, UrlLink] = get_wx_public_article_url_link("早晨简报")
         elif text.find("天气") != -1:
-            url_link = get_weather_url_link()
+            send_msg: Union[str, UrlLink] = get_weather_url_link()
         elif text.find("北上资金") != -1:
-            url_link = get_south_north_fund()
+            send_msg: Union[str, UrlLink] = get_south_north_fund()
         elif text.find("音乐") != -1:
             text = text.replace("音乐-", "")
-            url_link = get_music_file_url(text)
+            send_msg: Union[str, FileBox] = get_music_file_url(text)
         else:
-            url_link = "开发中。。。。。。。。。。。。。。"
+            send_msg: str = "开发中。。。。。。。。。。。。。。"
         conversation: Union[
             Room, Contact] = from_contact if room is None else room
         await conversation.ready()
-        await conversation.say(url_link)
+        await conversation.say(send_msg)
 
     # 登录成功后，，，
     async def on_login(self, contact: Contact):
@@ -92,6 +92,7 @@ class MyBot(Wechaty):
 
     async def on_scan(self, status: ScanStatus, qr_code: Optional[str] = None,
                       data: Optional[str] = None):
+        log.info(f"https://wechaty.js.org/qrcode/{qr_code}")
         contact = self.Contact.load(self.contact_id)
         log.info(f'user <{contact}> scan status: {status.name} , '
                  f'qr_code: {qr_code}')
