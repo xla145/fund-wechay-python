@@ -1,0 +1,8 @@
+pyee
+requests
+jsons
+qrcode
+lxml
+APScheduler
+wechaty-puppet~=0.0.8
+wechaty-puppet-hostie~=0.2.1
